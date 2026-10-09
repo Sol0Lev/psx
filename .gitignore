@@ -1,0 +1,12 @@
+# I giochi non vanno mai nel repo
+games/*
+!games/.gitkeep
+node_modules/
+.env
+tools/bin/
+uploads/
+.upload-key
+covers/src/
+public/covers/
+saves/
+public/cards/

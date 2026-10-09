@@ -1,0 +1,7 @@
+[Unit]
+Description=Copia giornaliera delle memory card di PSX
+[Timer]
+OnCalendar=*-*-* 04:30
+Persistent=true
+[Install]
+WantedBy=timers.target

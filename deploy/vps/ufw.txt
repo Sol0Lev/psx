@@ -1,0 +1,21 @@
+# PSX: limite per indirizzo sulle porte del ponte
+-A ufw-before-input -p udp -m multiport --dports 3478,49160:49250 -m hashlimit --hashlimit-above 1500/sec --hashlimit-burst 3000 --hashlimit-mode srcip --hashlimit-name psx_turn_udp -j DROP
+-A ufw-before-input -p tcp --dport 3478 --syn -m hashlimit --hashlimit-above 20/sec --hashlimit-burst 40 --hashlimit-mode srcip --hashlimit-name psx_turn_tcp -j DROP
+
+
+Status: active
+Logging: on (low)
+Default: deny (incoming), allow (outgoing), disabled (routed)
+New profiles: skip
+
+To                         Action      From
+--                         ------      ----
+22/tcp                     LIMIT IN    Anywhere                   # ssh
+3478/udp                   ALLOW IN    Anywhere                   # turn
+3478/tcp                   ALLOW IN    Anywhere                   # turn
+49160:49250/udp            ALLOW IN    Anywhere                   # turn-relay
+22/tcp (v6)                LIMIT IN    Anywhere (v6)              # ssh
+3478/udp (v6)              ALLOW IN    Anywhere (v6)              # turn
+3478/tcp (v6)              ALLOW IN    Anywhere (v6)              # turn
+49160:49250/udp (v6)       ALLOW IN    Anywhere (v6)              # turn-relay
+

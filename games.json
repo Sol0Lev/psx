@@ -1,0 +1,121 @@
+{
+  "games": [
+    {
+      "id": "tekken3",
+      "title": "Tekken 3",
+      "year": 1998,
+      "color": "#e8402a",
+      "cue": null,
+      "files": [
+        "tekken3.chd"
+      ],
+      "cover": "tekken3.jpg",
+      "versus": true
+    },
+    {
+      "id": "crash",
+      "title": "Crash Bandicoot",
+      "year": 1996,
+      "color": "#f28c1e",
+      "cue": null,
+      "files": [
+        "crash.chd"
+      ],
+      "cover": "crash.jpg"
+    },
+    {
+      "id": "spyro",
+      "title": "Spyro the Dragon",
+      "year": 1998,
+      "color": "#8a4fd8",
+      "cue": null,
+      "files": [
+        "spyro.chd"
+      ],
+      "cover": "spyro.jpg"
+    },
+    {
+      "id": "ctr",
+      "title": "Crash Team Racing",
+      "year": 1999,
+      "color": "#f5c400",
+      "cue": null,
+      "files": [
+        "ctr.chd"
+      ],
+      "cover": "ctr.jpg",
+      "versus": true
+    },
+    {
+      "id": "diablo",
+      "title": "Diablo",
+      "year": 1998,
+      "color": "#b3261e",
+      "cue": null,
+      "files": [
+        "diablo.chd"
+      ],
+      "cover": "diablo.jpg",
+      "versus": "coop"
+    },
+    {
+      "id": "mvc",
+      "title": "Marvel vs. Capcom",
+      "year": 1999,
+      "color": "#2f7cf6",
+      "cue": null,
+      "files": [
+        "mvc.chd"
+      ],
+      "cover": "mvc.jpg",
+      "versus": true
+    },
+    {
+      "id": "thps",
+      "title": "Tony Hawk's Pro Skater",
+      "year": 1999,
+      "color": "#e8402a",
+      "cue": null,
+      "files": [
+        "thps.chd"
+      ],
+      "cover": "thps.jpg",
+      "versus": true
+    },
+    {
+      "id": "dbgt",
+      "title": "Dragon Ball GT: Final Bout",
+      "year": 1997,
+      "color": "#f28c1e",
+      "cue": null,
+      "files": [
+        "dbgt.chd"
+      ],
+      "cover": "dbgt.jpg",
+      "versus": true
+    },
+    {
+      "id": "tombraider",
+      "title": "Tomb Raider",
+      "year": 1996,
+      "color": "#2bbf6a",
+      "cue": null,
+      "files": [
+        "tombraider.chd"
+      ],
+      "cover": "tombraider.jpg"
+    },
+    {
+      "id": "xmvsf",
+      "title": "X-Men vs. Street Fighter",
+      "year": 1998,
+      "color": "#e8402a",
+      "cue": null,
+      "files": [
+        "xmvsf.chd"
+      ],
+      "cover": "xmvsf.jpg",
+      "versus": true
+    }
+  ]
+}

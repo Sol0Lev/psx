@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PSX game card</title>
+<!-- Sorgente delle anteprime per gioco (public/cards/<id>.png, 1200x1200). Si rigenera con: node tools/make-cards.mjs
+     Parametri: ?id=<id>&title=<titolo>&year=<anno>&color=<colore> -->
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@1,700&family=VT323&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1200px; height: 1200px; overflow: hidden; background: #05060f; }
+  body { font-family: 'VT323', monospace; color: #e9ecff; position: relative;
+    background: linear-gradient(180deg, #0a0d2e 0%, #1b1060 55%, #3a0f5a 100%); }
+  .floor { position: absolute; left: -50%; right: -50%; bottom: -10%; height: 50%; transform: perspective(500px) rotateX(62deg); transform-origin: bottom;
+    background-image: linear-gradient(rgba(255,111,181,.5) 3px, transparent 3px), linear-gradient(90deg, rgba(47,124,246,.5) 3px, transparent 3px);
+    background-size: 90px 90px; -webkit-mask-image: linear-gradient(transparent, #000 40%); }
+  .stars { position: absolute; inset: 0 0 50% 0; background-image:
+    radial-gradient(3px 3px at 12% 20%, #fff, transparent), radial-gradient(2px 2px at 30% 60%, #fff, transparent),
+    radial-gradient(3px 3px at 55% 12%, #fff, transparent), radial-gradient(2px 2px at 72% 42%, #fff, transparent),
+    radial-gradient(3px 3px at 88% 24%, #fff, transparent), radial-gradient(2px 2px at 8% 70%, #fff, transparent); }
+  .logo { position: absolute; top: 46px; left: 60px; font-family: 'Chakra Petch', sans-serif; font-style: italic; font-weight: 700; font-size: 110px; letter-spacing: .05em; }
+  .tw { background: linear-gradient(180deg, #fff 0%, #c9cfe6 45%, #6d7494 52%, #e2e6f7 100%); -webkit-background-clip: text; color: transparent; }
+  .st { background: linear-gradient(90deg, #e8402a, #f5c400, #2bbf6a, #2f7cf6); -webkit-background-clip: text; color: transparent; }
+  .tag { position: absolute; top: 92px; right: 60px; font-size: 46px; letter-spacing: .2em; color: #b8bde0; }
+  /* disco con la copertina, come nel menu */
+  .disc { position: absolute; left: 50%; top: 210px; width: 600px; height: 600px; margin-left: -300px; border-radius: 50%;
+    background: conic-gradient(from 0deg, #d8dcef, #ff9ecf, #a1f0ff, #fff6a8, #b6ffb9, #d8dcef 50%, #ff9ecf, #a1f0ff, #fff6a8, #d8dcef);
+    box-shadow: 0 0 0 5px rgba(255,255,255,.35), 0 0 80px var(--c), 0 30px 60px rgba(0,0,0,.6); }
+  .label { position: absolute; inset: 7%; border-radius: 50%; overflow: hidden; background: var(--c) center/cover no-repeat; }
+  .hole { position: absolute; left: 50%; top: 50%; width: 21%; height: 21%; margin: -10.5% 0 0 -10.5%; border-radius: 50%;
+    background: radial-gradient(circle, #05060f 0 34%, #9aa3c4 36% 42%, rgba(216,220,239,.9) 44% 100%); box-shadow: 0 0 0 3px rgba(0,0,0,.25); }
+  .title { position: absolute; top: 850px; width: 100%; text-align: center; font-family: 'Chakra Petch', sans-serif; font-style: italic; font-weight: 700;
+    font-size: 96px; line-height: 1; padding: 0 60px; text-shadow: 0 0 30px var(--c), 0 6px 0 rgba(0,0,0,.4); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .press { position: absolute; bottom: 70px; width: 100%; text-align: center; font-size: 68px; letter-spacing: .14em; text-shadow: 0 0 18px rgba(47,124,246,.9); }
+  .x { display: inline-grid; place-items: center; width: 76px; height: 76px; border-radius: 50%; background: #14162a; box-shadow: 0 0 0 3px #3a3e5a;
+    color: #7fb2ff; font-family: system-ui, sans-serif; font-weight: 700; font-size: 46px; vertical-align: middle; margin: 0 10px; }
+  .crt { position: absolute; inset: 0; background: repeating-linear-gradient(0deg, rgba(0,0,0,.18) 0 2px, transparent 2px 5px),
+    radial-gradient(120% 120% at 50% 50%, transparent 60%, rgba(0,0,0,.55) 100%); }
+</style>
+</head>
+<body>
+  <div class="stars"></div><div class="floor"></div>
+  <div class="logo"><span class="st">PS</span><span class="tw">X</span></div>
+  <div class="tag" id="tag">PS1 · IN X</div>
+  <div class="disc"><div class="label" id="label"></div><div class="hole"></div></div>
+  <div class="title" id="title"></div>
+  <div class="press">PRESS <span class="x">✕</span> TO PLAY</div>
+  <div class="crt"></div>
+<script>
+  const q = new URLSearchParams(location.search);
+  const id = (q.get('id') || '').replace(/[^\w-]/g, '');
+  document.body.style.setProperty('--c', /^#[0-9a-f]{3,8}$/i.test(q.get('color') || '') ? q.get('color') : '#2f7cf6');
+  const title = document.getElementById('title');
+  title.textContent = q.get('title') || '';
+  // titoli lunghi (es. "Dragon Ball GT: Final Bout"): carattere più piccolo finché ci stanno, invece di "…"
+  document.fonts.ready.then(() => { let fs = 96; while (title.scrollWidth > title.clientWidth && fs > 48) title.style.fontSize = `${fs -= 4}px`; });
+  if (q.get('year')) document.getElementById('tag').textContent = `PS1 · ${q.get('year').replace(/\D/g, '')}`;
+  if (id) document.getElementById('label').style.backgroundImage = `url("covers/${id}.jpg")`;
+</script>
+</body>
+</html>

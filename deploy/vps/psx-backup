@@ -1,0 +1,6 @@
+#!/bin/sh
+# copia giornaliera delle memory card di PSX (ultime 14)
+set -e
+mkdir -p /var/backups/psx && chmod 700 /var/backups/psx
+tar -czf /var/backups/psx/saves-$(date +%F).tar.gz -C /srv/psx saves
+find /var/backups/psx -name "saves-*.tar.gz" -mtime +14 -delete

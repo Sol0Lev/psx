@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#05060f">
+<title>PSX</title>
+<!--CARD_META-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,500;0,700;1,700&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css?v=79">
+</head>
+<body>
+<main id="console">
+
+  <!-- 1. Spenta: tocca per accendere (serve un tocco per audio ed emulatore) -->
+  <section id="screen-power" class="screen on">
+    <div class="power-glow"></div>
+    <div class="logo-small"><span class="st">PS</span><span class="tw">X</span></div>
+    <button id="btn-power" class="power-btn" type="button" aria-label="Power on">
+      <span class="power-icon"></span>
+    </button>
+    <p class="blink">PRESS ✕ TO POWER ON</p>
+    <p id="pad-hint-power" class="pad-hint"></p>
+  </section>
+
+  <!-- 2. Accensione -->
+  <section id="screen-boot" class="screen">
+    <div class="boot-stage">
+      <svg class="boot-gem" viewBox="0 0 200 200" aria-hidden="true">
+        <polygon class="g g1" points="100,10 150,100 100,100" />
+        <polygon class="g g2" points="150,100 100,190 100,100" />
+        <polygon class="g g3" points="100,190 50,100 100,100" />
+        <polygon class="g g4" points="50,100 100,10 100,100" />
+      </svg>
+      <h1 class="boot-title"><span class="st">PS</span><span class="tw">X</span></h1>
+      <p class="boot-sub">32-BIT ENTERTAINMENT · IN YOUR FEED</p>
+    </div>
+  </section>
+
+  <!-- 3. Menu dischi -->
+  <section id="screen-menu" class="screen">
+    <div class="menu-bg"><div class="grid-floor"></div><div class="stars"></div></div>
+    <header class="menu-head">
+      <span class="logo-small"><span class="st">PS</span><span class="tw">X</span></span>
+      <span id="pad-status" class="pad-status" hidden>🎮 GAMEPAD</span>
+    </header>
+    <div class="menu-title">SELECT A DISC</div>
+    <div id="carousel" class="carousel" role="listbox" aria-label="Games"></div>
+    <div id="disc-info" class="disc-info">
+      <div id="disc-name" class="disc-name"></div>
+      <div id="disc-meta" class="disc-meta"></div>
+      <button id="menu-vs" class="pill menu-vs" type="button" hidden>⚔ VERSUS · 1 VS 1</button>
+    </div>
+    <footer class="legend">
+      <span><i class="sym x">✕</i> PLAY</span>
+      <span><i class="sym o">○</i> BACK</span>
+    </footer>
+    <input id="file-input" type="file" multiple hidden
+      accept=".cue,.bin,.img,.iso,.chd,.ccd,.sub,.toc,.zip,.7z,.rar">
+  </section>
+
+  <!-- 4. Gioco -->
+  <section id="screen-game" class="screen">
+    <div id="game-wrap"><div id="game"></div><video id="vs-video" class="vs-video" playsinline autoplay muted hidden></video></div>
+
+    <!-- Controller a schermo: funziona con dito e mouse (pointer events) -->
+    <div id="pad" class="pad" aria-label="Controller">
+      <div class="pad-shoulders">
+        <div class="sh-group"><button class="sh" data-in="12">L2</button><button class="sh" data-in="10">L1</button></div>
+        <button id="pad-undo" class="pill undo" type="button" aria-label="Undo last choice">↩ UNDO</button>
+        <div class="sh-group"><button class="sh" data-in="11">R1</button><button class="sh" data-in="13">R2</button></div>
+      </div>
+      <div class="pad-body">
+        <div id="dpad" class="dpad" aria-label="D-pad">
+          <span class="arm up"></span><span class="arm down"></span><span class="arm left"></span><span class="arm right"></span><span class="hub"></span>
+        </div>
+        <div class="mid">
+          <button class="pill" data-in="2">SELECT</button>
+          <button class="pill" data-in="3">START</button>
+        </div>
+        <div class="face">
+          <button class="fb t" data-in="9" aria-label="Triangle">△</button>
+          <button class="fb s" data-in="1" aria-label="Square">□</button>
+          <button class="fb o" data-in="8" aria-label="Circle">○</button>
+          <button class="fb x" data-in="0" aria-label="Cross">✕</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="game-tools">
+      <span id="vs-badge" class="vs-badge" hidden></span><!-- non più usato: lo stato è nel pulsante VERSUS -->
+      <button id="btn-back" class="tool" type="button" aria-label="Back to the game list">◄ GAMES</button>
+      <button id="btn-reset" class="tool" type="button" aria-label="Reset: back to the game title and menu">↺ RESET</button>
+      <button id="btn-card" class="tool" type="button" aria-label="Memory card">💾 CARD</button>
+      <button id="btn-emu" class="tool" type="button" aria-label="Emulator menu">☰ MENU</button>
+      <button id="btn-keys" class="tool" type="button" aria-label="Keys">⌨ KEYS</button>
+      <button id="btn-pad" class="tool" type="button" aria-label="Show or hide controller">◐ PAD</button>
+      <button id="btn-vs" class="tool vs" type="button" aria-label="Versus: play 1 vs 1">⚔ VERSUS</button>
+      <button id="btn-clip" class="tool clip" type="button" aria-label="Record a clip">🎬 CLIP</button>
+      <button id="btn-mute" class="tool" type="button" aria-label="Sound on or off">🔊 SOUND</button>
+    </div>
+
+  </section>
+
+  <!-- VERSUS: 1 contro 1. I due giocatori scrivono la STESSA password e finiscono nella stessa stanza.
+       Niente <form>: dentro l'iframe di X (sandbox senza allow-forms) l'invio dei moduli è bloccato. -->
+  <div id="vs" class="keys vs-panel" hidden>
+    <div class="keys-box">
+      <h3 id="vs-title">VERSUS · 1 VS 1</h3>
+      <div id="vs-form" class="vs-form">
+        <!-- Codice lobby con tastierino nostro: su iPhone (app X) la tastiera di sistema sfasava cursore e tocchi -->
+        <div class="pin-label">LOBBY CODE · 4-8 DIGITS</div>
+        <div id="vs-pin" class="pin-slots" aria-live="polite"></div>
+        <div id="vs-keys" class="pin-keys">
+          <button type="button" data-d="1">1</button><button type="button" data-d="2">2</button><button type="button" data-d="3">3</button>
+          <button type="button" data-d="4">4</button><button type="button" data-d="5">5</button><button type="button" data-d="6">6</button>
+          <button type="button" data-d="7">7</button><button type="button" data-d="8">8</button><button type="button" data-d="9">9</button>
+          <button type="button" data-d="del" aria-label="Delete">⌫</button><button type="button" data-d="0">0</button><button type="button" data-d="clr" aria-label="Clear">C</button>
+        </div>
+        <button id="vs-go" class="pill big" type="button">ENTER LOBBY</button>
+        <div class="vs-alt">
+          <button id="vs-watch" class="pill" type="button" title="Watch a match with this code">👁 WATCH</button>
+          <button id="vs-quick" class="pill" type="button" title="Play a random opponent, no code">⚡ QUICK MATCH</button>
+        </div>
+      </div>
+      <div id="vs-status" class="vs-status"></div>
+      <div class="vs-actions">
+        <button id="vs-leave" class="pill" type="button" hidden>LEAVE ROOM</button>
+        <button id="vs-close" class="pill" type="button">CLOSE</button>
+      </div>
+    </div>
+  </div>
+  <div id="keys" class="keys" hidden>
+    <div class="keys-box">
+      <h3>KEYBOARD</h3>
+      <dl>
+        <dt>← ↑ → ↓</dt><dd>d-pad</dd>
+        <dt>X</dt><dd><i class="sym x">✕</i></dd>
+        <dt>Z</dt><dd><i class="sym o">○</i></dd>
+        <dt>S</dt><dd><i class="sym s">□</i></dd>
+        <dt>A</dt><dd><i class="sym t">△</i></dd>
+        <dt>ENTER</dt><dd>START</dd>
+        <dt>V</dt><dd>SELECT</dd>
+        <dt>Q · E</dt><dd>L1 · R1</dd>
+        <dt>TAB · R</dt><dd>L2 · R2</dd>
+      </dl>
+      <p>GAMEPAD: plug it in and press a button. The on-screen controller hides itself.</p>
+      <button id="keys-close" class="pill" type="button">OK</button>
+    </div>
+  </div>
+
+  <!-- Memory card online: salvataggi con un codice di 12 cifre, da qualsiasi dispositivo (cards.mjs) -->
+  <div id="card" class="keys card-panel" hidden>
+    <div class="keys-box">
+      <h3>💾 MEMORY CARD</h3>
+      <div id="card-code" class="card-code"></div>
+      <div id="card-info" class="vs-status"></div>
+      <div id="card-main" class="card-main">
+        <button id="card-save" class="pill big" type="button">SAVE</button>
+        <button id="card-load" class="pill big" type="button">LOAD</button>
+        <button id="card-new" class="pill" type="button">NEW CARD</button>
+        <button id="card-have" class="pill" type="button">I HAVE A CODE</button>
+      </div>
+      <div id="card-enter" hidden>
+        <div class="pin-label">CARD CODE · 12 DIGITS</div><!-- testo cambiato da app.js: codice o PIN -->
+        <div id="card-slots" class="pin-slots card-slots"></div>
+        <div id="card-keys" class="pin-keys">
+          <button type="button" data-d="1">1</button><button type="button" data-d="2">2</button><button type="button" data-d="3">3</button>
+          <button type="button" data-d="4">4</button><button type="button" data-d="5">5</button><button type="button" data-d="6">6</button>
+          <button type="button" data-d="7">7</button><button type="button" data-d="8">8</button><button type="button" data-d="9">9</button>
+          <button type="button" data-d="del" aria-label="Delete">⌫</button><button type="button" data-d="0">0</button><button type="button" data-d="clr" aria-label="Clear">C</button>
+        </div>
+        <button id="card-use" class="pill big" type="button">USE THIS CARD</button>
+      </div>
+      <div class="vs-actions"><button id="card-close" class="pill" type="button">CLOSE</button></div>
+    </div>
+  </div>
+
+  <!-- Upload: avanzamento caricamento e conversione -->
+  <div id="upload" class="keys upload" hidden>
+    <div class="keys-box">
+      <h3 id="up-title">UPLOADING</h3>
+      <div class="up-track"><div id="up-bar" class="up-bar"></div></div>
+      <div id="up-step" class="up-step"></div>
+      <p id="up-note"></p>
+      <div id="up-keyrow" class="up-keyrow" hidden>
+        <input id="up-key" class="secret" type="text" autocomplete="off" spellcheck="false" placeholder="upload key" aria-label="Upload key" data-lpignore="true" data-1p-ignore>
+        <button id="up-pick" class="pill" type="button">SELECT FILES</button>
+      </div>
+      <button id="up-close" class="pill" type="button" hidden>OK</button>
+    </div>
+  </div>
+
+  <div class="crt" aria-hidden="true"></div>
+  <div id="toast" class="toast" role="status"></div>
+</main>
+<script src="/app.js?v=79"></script>
+</body>
+</html>

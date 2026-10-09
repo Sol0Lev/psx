@@ -1,0 +1,36 @@
+[Unit]
+Description=PSX (PS1 nel feed di X)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=psx
+Group=psx
+WorkingDirectory=/srv/psx
+Environment=NODE_ENV=production
+Environment=PORT=8787
+Environment=HOST=127.0.0.1
+Environment=PUBLIC_URL=https://psxsol0lev.xyz
+EnvironmentFile=/etc/psx/turn.env
+ExecStart=/usr/local/bin/node server.mjs
+Restart=always
+RestartSec=3
+# protezioni: niente privilegi, sistema in sola lettura tranne le memory card
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths=/srv/psx/saves
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+LockPersonality=yes
+RestrictSUIDSGID=yes
+CapabilityBoundingSet=
+SystemCallArchitectures=native
+MemoryMax=1500M
+
+[Install]
+WantedBy=multi-user.target
